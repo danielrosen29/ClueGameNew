@@ -1,0 +1,12 @@
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Lounge, O
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Lounge, O
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Lounge, O
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Lounge, O
