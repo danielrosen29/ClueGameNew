@@ -1,0 +1,13 @@
+//Rooms and Room cards
+Room, Lounge, A
+Room, Breakfast, B
+Room, Card, C
+Room, Dinner, D
+Room, Janitor, E
+Room, Lunch, F
+Room, Bathroom, G
+Room, Aviary, H
+Room, Igloo, I
+//Other spaces
+Space, Unused, X
+Space, Walkway, W
