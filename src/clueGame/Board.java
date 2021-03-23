@@ -57,7 +57,7 @@ public class Board {
 	private Set<BoardCell> visited;
 	
 	//The card deck
-	private Set<Card> deck;
+	private Set<Card> deck = new HashSet<Card>();
 	
 	//The solution
 	public Solution solution;
@@ -117,7 +117,9 @@ public class Board {
 	 * @throws IllegalArgumentException 
 	 */
 	public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException, NoSuchFieldException, SecurityException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
-		
+		//Clear players and weapons before each instance creation
+		playerSet.clear();
+		weaponSet.clear();
 		// open up the file
 		FileReader is = new FileReader(setupConfigFile);
 		Scanner roomConfig = new Scanner(is);
@@ -150,6 +152,7 @@ public class Board {
 			} else if (tokens[0].contentEquals("Player")) {
 				String name = tokens[1];
 				String type = tokens[2];
+				System.out.println(type);
 				String colorStr = tokens[3];
 				java.lang.reflect.Field f = Class.forName("java.awt.Color").getField(colorStr);
 				Color color = (Color)f.get(null);
@@ -165,7 +168,7 @@ public class Board {
 				}
 				playerSet.add(p);
 			} else if (tokens[0].contentEquals("Weapon")) {
-				weaponSet.add(tokens[0]);
+				weaponSet.add(tokens[1]);
 			}
 			else {
 				roomConfig.close();
@@ -247,7 +250,6 @@ public class Board {
 				if( secondary == Board.C_LABEL) {
 					room.setLabelCell( grid[row][col]) ;
 				}
-			
 			}
 			row++;
 		}
@@ -258,7 +260,8 @@ public class Board {
 	 */
 	private void createDeck() {
 		for (Map.Entry r : roomMap.entrySet()) { 
-			deck.add(new Card((String)r.getValue()));
+			Room tempRoom = (Room) r.getValue();
+			deck.add(new Card(tempRoom.getName()));
 		}
 		for (Player p : playerSet) {
 			deck.add(new Card(p.getName()));
@@ -286,7 +289,7 @@ public class Board {
 
 		
 		//Get Solution Weapon
-		ArrayList<Player> shuffledWeapons = new ArrayList<Player>(playerSet);
+		ArrayList<String> shuffledWeapons = new ArrayList<String>(weaponSet);
 		Collections.shuffle(shuffledWeapons);
 		String solutionWeapon = shuffledWeapons.get(0);
 		
@@ -298,7 +301,8 @@ public class Board {
 				solution.person = c;
 				deck.remove(c);
 			} else if (c.getCard() == solutionWeapon) {
-				
+				solution.weapon = c;
+				deck.remove(c);
 			}
 		}
 		

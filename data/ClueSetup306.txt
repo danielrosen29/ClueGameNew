@@ -11,3 +11,17 @@ Room, Hall, H
 // other spaces on board
 Space, Unused, X
 Space, Walkway, W
+//Players
+Player, Human, H, BLUE, 5, 4
+Player, Comp1, C, RED, 5, 10
+Player, Comp2, C, GREEN, 5, 18
+Player, Comp3, C, ORANGE, 10, 6
+Player, Comp4, C, CYAN, 10, 13
+Player, Comp5, C, MAGENTA, 15, 4
+//Weapons
+Weapon, Knife
+Weapon, Spoon
+Weapon, Bat
+Weapon, Rifle
+Weapon, Kitten
+Weapon, Stick

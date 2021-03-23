@@ -16,7 +16,7 @@ public class ExceptionTests306 {
 	// Test that an exception is thrown for a config file that does not
 	// have the same number of columns for each row
 	@Test(expected = BadConfigFormatException.class)
-	public void testBadColumns() throws BadConfigFormatException, FileNotFoundException {
+	public void testBadColumns() throws BadConfigFormatException, FileNotFoundException, NoSuchFieldException, SecurityException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
 		// Note that we are using a LOCAL Board variable, because each
 		// test will load different files
 		Board board = Board.getInstance();
@@ -32,7 +32,7 @@ public class ExceptionTests306 {
 	// a room that is not in the legend. See first test for other important
 	// comments.
 	@Test(expected = BadConfigFormatException.class)
-	public void testBadRoom() throws BadConfigFormatException, FileNotFoundException {
+	public void testBadRoom() throws BadConfigFormatException, FileNotFoundException, NoSuchFieldException, SecurityException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayoutBadRoom306.csv", "ClueSetup306.txt");
 		board.loadSetupConfig();
@@ -42,7 +42,7 @@ public class ExceptionTests306 {
 	// Test that an exception is thrown for a config file with a room type
 	// that is not Card or Other
 	@Test(expected = BadConfigFormatException.class)
-	public void testBadRoomFormat() throws BadConfigFormatException, FileNotFoundException {
+	public void testBadRoomFormat() throws BadConfigFormatException, FileNotFoundException, NoSuchFieldException, SecurityException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayout306.csv", "ClueSetupBadFormat306.txt");
 		board.loadSetupConfig();
