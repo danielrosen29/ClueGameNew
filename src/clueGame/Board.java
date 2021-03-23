@@ -305,7 +305,14 @@ public class Board {
 				deck.remove(c);
 			}
 		}
-		
+		ArrayList<Player> playerList = new ArrayList<Player>(playerSet);
+		int index = 0;
+		for (Card c : deck) {
+			if (index == playerList.size())
+				index = 0;
+			playerList.get(index).updateHand(c);
+			index++;
+		}
 	}
 
 	/*
