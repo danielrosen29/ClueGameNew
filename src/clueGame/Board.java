@@ -60,7 +60,7 @@ public class Board {
 	private Set<Card> deck = new HashSet<Card>();
 	
 	//The solution
-	public Solution solution;
+	public Solution solution = new Solution();
 	
 	/*
 	 * 
@@ -84,6 +84,7 @@ public class Board {
 	public void initialize() {
 		loadConfigFiles();
 		createDeck();
+		dealCards();
 		calcAdjacencies();
 	}
 
@@ -152,7 +153,6 @@ public class Board {
 			} else if (tokens[0].contentEquals("Player")) {
 				String name = tokens[1];
 				String type = tokens[2];
-				System.out.println(type);
 				String colorStr = tokens[3];
 				java.lang.reflect.Field f = Class.forName("java.awt.Color").getField(colorStr);
 				Color color = (Color)f.get(null);
@@ -160,7 +160,7 @@ public class Board {
 				String r = tokens[4];
 				String c = tokens[5];
 				Player p;
-				if (type == "H") {
+				if (type.equals("H")) {
 					p = new HumanPlayer(name, color, Integer.parseInt(r), Integer.parseInt(c));
 				}
 				else {
@@ -259,6 +259,7 @@ public class Board {
 	 * Method to create deck of cards
 	 */
 	private void createDeck() {
+		deck.clear();
 		for (Map.Entry r : roomMap.entrySet()) { 
 			Room tempRoom = (Room) r.getValue();
 			deck.add(new Card(tempRoom.getName()));
@@ -296,15 +297,17 @@ public class Board {
 		for (Card c : deck) {
 			if (c.getCard() == roomTemp) {
 				solution.room = c;
-				deck.remove(c);
 			} else if (c.getCard() == playerTemp) {
 				solution.person = c;
-				deck.remove(c);
 			} else if (c.getCard() == solutionWeapon) {
 				solution.weapon = c;
-				deck.remove(c);
 			}
 		}
+		
+		deck.remove(solution.room);
+		deck.remove(solution.person);
+		deck.remove(solution.weapon);
+		
 		ArrayList<Player> playerList = new ArrayList<Player>(playerSet);
 		int index = 0;
 		for (Card c : deck) {
@@ -313,6 +316,7 @@ public class Board {
 			playerList.get(index).updateHand(c);
 			index++;
 		}
+		
 	}
 
 	/*

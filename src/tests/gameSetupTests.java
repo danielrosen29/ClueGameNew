@@ -41,10 +41,15 @@ public class gameSetupTests {
 			Set<Player> testList = board.getPlayers();
 			assertEquals(6, testList.size());
 			
-			//See if the first player is Human
-			ArrayList<Player> Players = new ArrayList<Player>(testList);
-			System.out.println(Players.get(0).getClass());
-			assertTrue(Players.get(0) instanceof HumanPlayer);
+			//See if there is only 1 human player
+			//order gets messed up so just see if there is the right amount
+			int count = 0;
+			for(Player i : testList) {
+				if(i instanceof HumanPlayer) {
+					count++;
+				}
+			}
+			assertEquals(1, count);
 			
 			
 		}
@@ -55,22 +60,42 @@ public class gameSetupTests {
 		{
 			// Check if the right amount of cards were added
 			Set<Card> testList = board.getDeck();
-			//size should be 23 because walkways and unused spaces exist
-			assertEquals(23, testList.size());
+			//size should be 20 because walkways and unused spaces exist then the solution cards are removed
+			assertEquals(20, testList.size());
 
 		}
-		//Test to see if 1 human player and 5 computers were created
+		
+		//Test to see if cards were dealt
 		@Test
 		public void testDeal()
 		{
-			// Check if the right amount of players were initialized
-			Set<Player> testList = board.getPlayers();
-			assertEquals(6, testList.size());
-
-			//See if the first player is Human
-			ArrayList<Player> Players = new ArrayList<Player>(testList);
-			System.out.println(Players.get(0).getClass());
-			assertTrue(Players.get(0) instanceof HumanPlayer);
+			Set<Player> testPList = board.getPlayers();
+			
+			//test if each player got the right amount of cards
+			
+			for(Player i : testPList) {
+				Set<Card> testList = i.getHand();
+				assertFalse(testList.size() > 5);
+				assertFalse(testList.size() < 3);
+				
+			}
+			
+			//test to make sure no card was dealt twice
+			
+			ArrayList<Player> testList = new ArrayList<Player>(testPList);
+			
+			// check some random cards from player hands against each other
+			
+			ArrayList<Card> testHand1 = new ArrayList<Card>(testList.get(0).getHand());
+			ArrayList<Card> testHand2 = new ArrayList<Card>(testList.get(2).getHand());
+			
+			assertFalse(testHand1.get(0) == testHand2.get(0));
+			assertFalse(testHand1.get(0) == testHand2.get(1));
+			assertFalse(testHand1.get(0) == testHand2.get(2));
+			assertFalse(testHand1.get(1) == testHand2.get(2));
+			assertFalse(testHand1.get(2) == testHand2.get(2));
+			assertFalse(testHand1.get(1) == testHand2.get(1));
+			assertFalse(testHand1.get(1) == testHand2.get(0));
 
 
 		}

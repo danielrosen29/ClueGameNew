@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.Set;
 
 public abstract class Player {
 	private String name;
@@ -18,4 +19,5 @@ public abstract class Player {
 	public String getName() {
 		return this.name;
 	}
+	public abstract Set<Card> getHand();
 }
