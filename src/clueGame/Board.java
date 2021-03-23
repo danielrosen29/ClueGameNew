@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import com.sun.jdi.Field;
 
 /**
  * Board for clueGame
@@ -39,6 +42,12 @@ public class Board {
 
 	// map to hold the game rooms, key is the character (note, walkways and closets are included)
 	private Map<Character, Room> roomMap = new HashMap<Character, Room>();
+	
+	// Set to hold the different players
+	private Set<Player> playerSet = new HashSet<Player>();
+	
+	//Set to hold the different weapons
+	private Set<String> weaponSet = new HashSet<String>();
 
 	// Data structure containing the targets
 	private Set<BoardCell> targets ;
@@ -91,8 +100,13 @@ public class Board {
 	 * 
 	 * @throws FileNotFoundException
 	 * @throws BadConfigFormatException
+	 * @throws ClassNotFoundException 
+	 * @throws SecurityException 
+	 * @throws NoSuchFieldException
+	 * @throws IllegalAccessException 
+	 * @throws IllegalArgumentException 
 	 */
-	public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
+	public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException, NoSuchFieldException, SecurityException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
 		
 		// open up the file
 		FileReader is = new FileReader(setupConfigFile);
@@ -123,7 +137,27 @@ public class Board {
 				char key = tokens[2].charAt(0) ;
 				Room room = new Room( key, tokens[1] ) ;
 				roomMap.put(key, room);
-			} else {
+			} else if (tokens[0].contentEquals("Player")) {
+				String name = tokens[1];
+				String type = tokens[2];
+				String colorStr = tokens[3];
+				java.lang.reflect.Field f = Class.forName("java.awt.Color").getField(colorStr);
+				Color color = (Color)f.get(null);
+				
+				String r = tokens[4];
+				String c = tokens[5];
+				Player p;
+				if (type == "H") {
+					p = new HumanPlayer(name, color, Integer.parseInt(r), Integer.parseInt(c));
+				}
+				else {
+					p = new ComputerPlayer(name, color, Integer.parseInt(r), Integer.parseInt(c));
+				}
+				playerSet.add(p);
+			} else if (tokens[0].contentEquals("Weapon")) {
+				weaponSet.add(tokens[0]);
+			}
+			else {
 				roomConfig.close();
 				throw new BadConfigFormatException("Room file format incorrect at line: " + line);
 			}
@@ -367,6 +401,10 @@ public class Board {
 
 	public int getNumColumns() {
 		return numColumns;
+	}
+	
+	public Set<Player> getPlayers() {
+		return playerSet;
 	}
 
 }

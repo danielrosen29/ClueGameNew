@@ -11,3 +11,5 @@ Room, Igloo, I
 //Other spaces
 Space, Unused, X
 Space, Walkway, W
+Person, Name, Type (H or C), Color (one from java.awt.Color), row, column
+Weapon, Type (string)
