@@ -15,4 +15,7 @@ public abstract class Player {
 	}
 	public abstract void updateHand(Card card);
 	
+	public String getName() {
+		return this.name;
+	}
 }

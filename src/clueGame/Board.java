@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -50,11 +51,19 @@ public class Board {
 	private Set<String> weaponSet = new HashSet<String>();
 
 	// Data structure containing the targets
-	private Set<BoardCell> targets ;
+	private Set<BoardCell> targets;
 	// Data structure used during path calculation
 	// Used an instance var for efficiency (since recursive call)
 	private Set<BoardCell> visited;
+	
+	//The card deck
+	private Set<Card> deck;
+	
+	//The solution
+	public Solution solution;
+	
 	/*
+	 * 
 	 * variable and methods used for singleton pattern
 	 */
 	private static Board theInstance = new Board();
@@ -74,7 +83,8 @@ public class Board {
 	 */
 	public void initialize() {
 		loadConfigFiles();
-		calcAdjacencies() ;
+		createDeck();
+		calcAdjacencies();
 	}
 
 	/*
@@ -242,6 +252,57 @@ public class Board {
 			row++;
 		}
 	}
+	
+	/*
+	 * Method to create deck of cards
+	 */
+	private void createDeck() {
+		for (Map.Entry r : roomMap.entrySet()) { 
+			deck.add(new Card((String)r.getValue()));
+		}
+		for (Player p : playerSet) {
+			deck.add(new Card(p.getName()));
+		}
+		for (String w : weaponSet) {
+			deck.add(new Card(w));
+		}
+	}
+	
+	/*
+	 * Method to deal cards
+	 */
+	private void dealCards() {
+		//Get Solution Room
+		ArrayList<Character> shuffledRooms = new ArrayList<Character>(roomMap.keySet());
+		Collections.shuffle(shuffledRooms);
+		Character solutionRoom = shuffledRooms.get(0);
+		String roomTemp = roomMap.get(solutionRoom).getName();
+		
+		//Get Solution Player
+		ArrayList<Player> shuffledPlayers = new ArrayList<Player>(playerSet);
+		Collections.shuffle(shuffledPlayers);
+		Player solutionPlayer = shuffledPlayers.get(0);
+		String playerTemp = solutionPlayer.getName();
+
+		
+		//Get Solution Weapon
+		ArrayList<Player> shuffledWeapons = new ArrayList<Player>(playerSet);
+		Collections.shuffle(shuffledWeapons);
+		String solutionWeapon = shuffledWeapons.get(0);
+		
+		for (Card c : deck) {
+			if (c.getCard() == roomTemp) {
+				solution.room = c;
+				deck.remove(c);
+			} else if (c.getCard() == playerTemp) {
+				solution.person = c;
+				deck.remove(c);
+			} else if (c.getCard() == solutionWeapon) {
+				
+			}
+		}
+		
+	}
 
 	/*
 	 *  Methods to calculate adjacencies. Called once at beginning of program.
@@ -277,6 +338,7 @@ public class Board {
 			roomMap.get(cell.getInitial()).getCenterCell().addAdj(roomMap.get(sp).getCenterCell()) ;
 		}
 	}
+
 
 	/**
 	 * 
@@ -405,6 +467,14 @@ public class Board {
 	
 	public Set<Player> getPlayers() {
 		return playerSet;
+	}
+	
+	public Set<String> getWeapons() {
+		return weaponSet;
+	}
+	
+	public Set<Card> getDeck() {
+		return deck;
 	}
 
 }
