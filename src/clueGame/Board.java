@@ -313,7 +313,9 @@ public class Board {
 		for (Card c : deck) {
 			if (index == playerList.size())
 				index = 0;
-			playerList.get(index).updateHand(c);
+			if(playerList.get(index).getHand().size() != 3) {
+				playerList.get(index).updateHand(c);
+			}
 			index++;
 		}
 		
@@ -433,6 +435,18 @@ public class Board {
 				visited.remove(adjCell);
 			}
 		}
+	}
+	
+	//Method for testing accusations
+	
+	public Boolean checkAccusation(Solution suggestion) {
+		return null;
+	}
+	
+	//Method for handling suggestions
+	
+	public Card handleSuggestion(Solution suggestion) {
+		return null;
 	}
 
 

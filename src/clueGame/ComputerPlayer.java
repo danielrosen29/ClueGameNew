@@ -12,6 +12,14 @@ public class ComputerPlayer extends Player {
 		hand = new HashSet<Card>();
 	}
 	
+	public Solution createSuggestion(Card room) {
+		return null;
+	}
+	
+	public BoardCell selectMove() {
+		return null;
+	}
+	
 	@Override
 	public void updateHand(Card card) {
 		hand.add(card);

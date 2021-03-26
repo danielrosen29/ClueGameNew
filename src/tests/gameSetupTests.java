@@ -75,8 +75,7 @@ public class gameSetupTests {
 			
 			for(Player i : testPList) {
 				Set<Card> testList = i.getHand();
-				assertFalse(testList.size() > 5);
-				assertFalse(testList.size() < 3);
+				assertTrue(testList.size() == 3);
 				
 			}
 			
