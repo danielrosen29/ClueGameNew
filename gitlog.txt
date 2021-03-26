@@ -1,0 +1,53 @@
+commit 5b57e33a20f286f0d458d3b6d9c63578dc57b9a6
+Author: Jake Zenick <jzenick@mymail.mines.edu>
+Date:   Mon Mar 22 22:04:55 2021 -0600
+
+    Fixed a few errors, added extra test cases ensuring everything still passes.
+
+commit c4196a69f0daeacb504d033ae266a3a0b0d2e21a
+Author: Danny Rosen <danielrosen29@gmail.com>
+Date:   Mon Mar 22 20:59:40 2021 -0600
+
+    Added missing for loop
+
+commit 19f2d5d5dafffb4720d01cf6a324cf46e97acf50
+Author: Jake Zenick <jzenick@mymail.mines.edu>
+Date:   Mon Mar 22 20:58:35 2021 -0600
+
+    Fixed a few tests
+
+commit c0bf73bee473cf67d5103cc3d9d3c2e672fb5f53
+Author: Danny Rosen <danielrosen29@gmail.com>
+Date:   Mon Mar 22 18:54:30 2021 -0600
+
+    Added dealCards() which assigns cards solution and players
+
+commit 86ab278c81dede4be9a5e52e5748fd9e33a931ad
+Author: Danny Rosen <danielrosen29@gmail.com>
+Date:   Mon Mar 22 18:12:17 2021 -0600
+
+    Created createDeck() which fills the deck with cards
+
+commit 2352f75ca7c02a83abb0556e173dbc7a5e157484
+Author: Danny Rosen <danielrosen29@gmail.com>
+Date:   Mon Mar 22 17:53:21 2021 -0600
+
+    did loading for ClueSetup.txt
+
+commit a97b66a0e389fb00514b4b11d009851594b12737
+Author: Danny Rosen <danielrosen29@gmail.com>
+Date:   Mon Mar 22 16:53:53 2021 -0600
+
+    Added stubs for C18A-2
+
+commit f14e15548e9d74e3f91ff7e3a6e6b754a1f67d34
+Author: Danny Rosen <danielrosen29@gmail.com>
+Date:   Mon Mar 22 16:05:58 2021 -0600
+
+    put old data folder in
+
+commit 8f160d0baafb2566584a340c19ef008c181e8d1b
+Author: Danny Rosen <danielrosen29@gmail.com>
+Date:   Mon Mar 22 15:52:21 2021 -0600
+
+    Initial push

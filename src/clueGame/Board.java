@@ -262,13 +262,13 @@ public class Board {
 		deck.clear();
 		for (Map.Entry r : roomMap.entrySet()) { 
 			Room tempRoom = (Room) r.getValue();
-			deck.add(new Card(tempRoom.getName()));
+			deck.add(new Card(tempRoom.getName(), CardType.ROOM));
 		}
 		for (Player p : playerSet) {
-			deck.add(new Card(p.getName()));
+			deck.add(new Card(p.getName(), CardType.PERSON));
 		}
 		for (String w : weaponSet) {
-			deck.add(new Card(w));
+			deck.add(new Card(w, CardType.WEAPON));
 		}
 	}
 	
@@ -440,12 +440,31 @@ public class Board {
 	//Method for testing accusations
 	
 	public Boolean checkAccusation(Solution suggestion) {
-		return null;
+		if(suggestion.person.getCard() == solution.person.getCard() &&
+				suggestion.room.getCard() == solution.room.getCard() &&
+				suggestion.weapon.getCard() == solution.weapon.getCard()) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	//Method for handling suggestions
 	
-	public Card handleSuggestion(Solution suggestion) {
+	public Card handleSuggestion(Solution suggestion, Player accuser) {
+		for(Player p : playerSet) {
+			Card c = p.disproveSuggestion(suggestion);
+			if(c != null) {
+				for(Player x : playerSet) {
+					if(x instanceof ComputerPlayer) {
+						((ComputerPlayer)x).updateSeenCards(c);
+					}
+				}
+				if(p != accuser) {
+					return c;
+				}
+			}
+		}
 		return null;
 	}
 
