@@ -440,7 +440,12 @@ public class Board {
 	//Method for testing accusations
 	
 	public Boolean checkAccusation(Solution suggestion) {
-		return null;
+		if (suggestion.person == solution.person &&
+				suggestion.room == solution.room &&
+				suggestion.weapon == solution.weapon) {
+			return true;
+		}
+		return false;
 	}
 	
 	//Method for handling suggestions
