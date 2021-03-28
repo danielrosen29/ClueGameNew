@@ -17,7 +17,8 @@ public class ComputerPlayer extends Player {
 	public Solution createSuggestion(Card room) {
 		Solution out = new Solution();
 		out.room = room;
-		Collections.shuffle((List<?>) cardsNotSeen);
+		ArrayList<Card> cardArray = new ArrayList<Card>(cardsNotSeen);
+		Collections.shuffle(cardArray);
 		for (Card c : cardsNotSeen) {
 			if (c.getType() == CardType.PERSON) {
 				out.person = c;
@@ -68,6 +69,10 @@ public class ComputerPlayer extends Player {
 	
 	public void setSeenCards(Set<Card> deck) {
 		this.cardsNotSeen = deck;
+	}
+	
+	public Set<Card> getUnseenCards(){
+		return this.cardsNotSeen;
 	}
 
 	

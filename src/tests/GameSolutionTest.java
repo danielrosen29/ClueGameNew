@@ -37,8 +37,10 @@ public class GameSolutionTest {
 		board.initialize();
 	}
 	
+	
+	//Test all cases for a player disproves a solution
 	@Test
-	public void playerDisproves()
+	public void testPlayerDisproves()
 	{
 		//setup a known testcard
 		ArrayList<Player> testPList = new ArrayList<Player>(board.getPlayers());
@@ -71,6 +73,7 @@ public class GameSolutionTest {
 		assertEquals(multipleReturns.size(), 3);
 	}
 	
+	//Test all cases for testing an accusation
 	@Test
 	public void testAccusationTest() {
 		Card testP = new Card("Wrong", CardType.PERSON);
@@ -95,6 +98,8 @@ public class GameSolutionTest {
 		
 	}
 	
+	
+	//Test all cases for handling a suggestion
 	@Test
 	public void handeSuggestionTest() {
 		ArrayList<Player> testPList = new ArrayList<Player>(board.getPlayers());
