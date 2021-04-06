@@ -42,4 +42,8 @@ public abstract class Player {
 	}
 	
 	public abstract Set<Card> getHand();
+	
+	public Color getColor() {
+		return color;
+	}
 }

@@ -1,3 +1,61 @@
 Rows do not all have the same number of columns
 Room not defined Y
 Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
+Rows do not all have the same number of columns
+Room not defined Y
+Room file format incorrect at line: Rom, Dining Room, D
