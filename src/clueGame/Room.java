@@ -1,5 +1,11 @@
 package clueGame;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
+import javax.swing.JTextField;
+
 /**
  * Room for clueGame
  * 
@@ -46,5 +52,15 @@ public class Room {
 
 	public BoardCell getCenterCell() {
 		return centerCell;
+	}
+	public void drawLabels(Graphics g) {
+		BoardCell center = this.getCenterCell();
+		System.out.println(center);
+		if (center != null) {
+			g = (Graphics2D)g;
+			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+			RenderingHints.VALUE_ANTIALIAS_ON);
+			g.drawString(name, center.getCol()*59, center.getRow()*32);
+		}
 	}
 }

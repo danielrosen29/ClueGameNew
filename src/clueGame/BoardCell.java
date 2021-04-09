@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -149,28 +150,42 @@ public class BoardCell {
 		}
 	}
 	
+	public int getRow() {
+		return this.row;
+	}
+	
+	public int getCol() {
+		return this.col;
+	}
+	
 	public void draw(int width, int height, Graphics g) {
-		if (this.isRoomCenter()) {
-			//TODO
-		}
 		if (this.isRoom()) {
 			g.setColor(Color.gray);
-			g.fillRect(width*row, height*col+2, width, height);
+			g.fillRect(width*col, height*row+2, width, height);
 		}
-		else  {
+		else if(this.initial != 'X') {
 			g.setColor(Color.yellow);
-			g.fillRect(width*row, height*col+2, width, height);
+			g.fillRect(width*col, height*row+2, width, height);
 			g.setColor(Color.black);
-			g.drawRect(width*row, height*col+2, width, height);
+			g.drawRect(width*col, height*row+2, width, height);
+		}
+		else {
+			g.setColor(Color.black);
+			g.fillRect(width*col, height*row+2, width, height);
 		}
 		if (this.isDoorway()) {
 			DoorDirection dd = this.getDoorDirection();
 			g.setColor(Color.blue);
 			if (dd == DoorDirection.UP) {
-				g.fillRect(width*row, height*col+2, width, 15);
+				g.fillRect(width*col, height*row+2, width, 7);
+			} else if (dd == DoorDirection.DOWN) {
+				g.fillRect(width*col, height*row+height-7+2, width, height+7);
+			} else if (dd == DoorDirection.LEFT) {
+				g.fillRect(width*col, height*row+2, 7, height);
+			} else {
+				g.fillRect(width*col+width-7, height+2, 7, height);
 			}
 		}
-		
 		
 	}
 }

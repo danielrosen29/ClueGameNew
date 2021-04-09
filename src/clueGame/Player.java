@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.Random;
+import java.awt.*;
+import javax.swing.*;
 
 public abstract class Player {
 	private Random random = new Random();
@@ -45,5 +47,10 @@ public abstract class Player {
 	
 	public Color getColor() {
 		return color;
+	}
+	
+	public void drawPlayer(int width, int height, Graphics g) {
+		g.setColor(this.color);
+		g.fillOval(this.col-(width/2), this.row-(height/2), width, height);
 	}
 }

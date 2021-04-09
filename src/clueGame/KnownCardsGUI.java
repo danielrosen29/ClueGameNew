@@ -144,6 +144,7 @@ public class KnownCardsGUI extends JPanel {
 		JTextField returnField = new JTextField(text);
 		returnField.setEditable(false);
 		returnField.setBackground(p.getColor());
+		returnField.setForeground(Color.white);
 		return returnField;
 	}
 	

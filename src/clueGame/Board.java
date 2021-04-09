@@ -52,6 +52,8 @@ public class Board extends JPanel {
 	
 	//Set to hold the different weapons
 	private Set<String> weaponSet = new HashSet<String>();
+	
+	private Set<BoardCell> startLocations = new HashSet<BoardCell>();
 
 	// Data structure containing the targets
 	private Set<BoardCell> targets;
@@ -88,6 +90,7 @@ public class Board extends JPanel {
 		loadConfigFiles();
 		createDeck();
 		dealCards();
+		generateStarts();
 		calcAdjacencies();
 	}
 
@@ -273,6 +276,40 @@ public class Board extends JPanel {
 		for (String w : weaponSet) {
 			deck.add(new Card(w, CardType.WEAPON));
 		}
+	}
+	
+	/*
+	 * Method to find all possible starting locations, will be assigned in initialize
+	 */
+	private void generateStarts() {
+		for(int i = 0; i < grid[0].length; i++) {
+			if(grid[0][i].isWalkway()) {
+				startLocations.add(grid[0][i]);
+			}
+		}
+		for(int i = 0; i < grid[0].length; i++) {
+			if(grid[grid.length-1][i].isWalkway()) {
+				startLocations.add(grid[grid.length-1][i]);
+			}
+		}
+		for(int i = 0; i < grid.length; i++) {
+			if(grid[i][0].isWalkway()) {
+				startLocations.add(grid[i][0]);
+			}
+		}
+		for(int i = 0; i < grid.length; i++) {
+			if(grid[i][grid[0].length-1].isWalkway()) {
+				startLocations.add(grid[i][grid[0].length-1]);
+			}
+		}
+	}
+	
+	/*
+	 * Method to set start locations for all the players
+	 */
+	
+	private void setStarts () {
+		
 	}
 	
 	/*
@@ -534,14 +571,23 @@ public class Board extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		int cellWidth = 53;
-		int cellHeight = 35;
+		int cellWidth = 59;
+		int cellHeight = 32;
 		
 		
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[0].length; j++) {
 				grid[i][j].draw(cellWidth, cellHeight, g);
 			}
+		}
+		
+		for (Character c : roomMap.keySet()) {
+			//System.out.println(roomMap.get(c).getCenterCell());
+			roomMap.get(c).drawLabels(g);
+		}
+		
+		for (Player i : this.playerSet) {
+			i.drawPlayer(cellWidth, cellHeight, g);
 		}
 		
 		
