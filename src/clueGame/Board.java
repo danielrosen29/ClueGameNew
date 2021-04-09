@@ -459,6 +459,9 @@ public class Board {
 					if(x instanceof ComputerPlayer) {
 						((ComputerPlayer)x).updateSeenCards(c);
 					}
+					else {
+						((HumanPlayer)x).updateSeen(c, p);
+					}
 				}
 				if(p != accuser) {
 					return c;
