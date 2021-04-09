@@ -11,7 +11,7 @@ public class ClueGame extends JFrame {
 	KnownCardsGUI KCPanel;
 	
 	public ClueGame() {
-		board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");		
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		board.initialize();
 		
 		HumanPlayer hp = null;

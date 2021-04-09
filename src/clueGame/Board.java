@@ -534,8 +534,8 @@ public class Board extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		int cellWidth = 49;
-		int cellHeight = 30;
+		int cellWidth = 53;
+		int cellHeight = 35;
 		
 		
 		for (int i = 0; i < grid.length; i++) {

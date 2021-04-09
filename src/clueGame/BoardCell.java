@@ -1,8 +1,11 @@
 package clueGame;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.swing.JLabel;
 
 /**
  * BoardCell for clueGame
@@ -147,6 +150,27 @@ public class BoardCell {
 	}
 	
 	public void draw(int width, int height, Graphics g) {
-		g.drawRect(width*row, height*col+2, width, height);
+		if (this.isRoomCenter()) {
+			//TODO
+		}
+		if (this.isRoom()) {
+			g.setColor(Color.gray);
+			g.fillRect(width*row, height*col+2, width, height);
+		}
+		else  {
+			g.setColor(Color.yellow);
+			g.fillRect(width*row, height*col+2, width, height);
+			g.setColor(Color.black);
+			g.drawRect(width*row, height*col+2, width, height);
+		}
+		if (this.isDoorway()) {
+			DoorDirection dd = this.getDoorDirection();
+			g.setColor(Color.blue);
+			if (dd == DoorDirection.UP) {
+				g.fillRect(width*row, height*col+2, width, 15);
+			}
+		}
+		
+		
 	}
 }

@@ -56,8 +56,8 @@ public class KnownCardsGUI extends JPanel {
 		topLabel.setForeground(textColor);
 		botLabel.setForeground(textColor);
 		returnedPanel.setBackground(backgroundColor);
-		returnedPanel.setPreferredSize(new Dimension(149, 240));
-		returnedPanel.setMaximumSize(new Dimension(149, 240));
+		returnedPanel.setPreferredSize(new Dimension(155, 240));
+		returnedPanel.setMaximumSize(new Dimension(155, 240));
 		returnedPanel.add(topLabel);
 		for(Card i : hand) {
 			if (i.getType() == CardType.PERSON) {
@@ -87,8 +87,8 @@ public class KnownCardsGUI extends JPanel {
 		topLabel.setForeground(textColor);
 		botLabel.setForeground(textColor);
 		returnedPanel.setBackground(backgroundColor);
-		returnedPanel.setPreferredSize(new Dimension(149, 240));
-		returnedPanel.setMaximumSize(new Dimension(149, 240));
+		returnedPanel.setPreferredSize(new Dimension(155, 240));
+		returnedPanel.setMaximumSize(new Dimension(155, 240));
 		returnedPanel.add(topLabel);
 		for(Card i : hand) {
 			if (i.getType() == CardType.ROOM) {
@@ -119,8 +119,8 @@ public class KnownCardsGUI extends JPanel {
 		topLabel.setForeground(textColor);
 		botLabel.setForeground(textColor);
 		returnedPanel.setBackground(backgroundColor);
-		returnedPanel.setPreferredSize(new Dimension(149, 240));
-		returnedPanel.setMaximumSize(new Dimension(149, 240));
+		returnedPanel.setPreferredSize(new Dimension(155, 240));
+		returnedPanel.setMaximumSize(new Dimension(155, 240));
 		returnedPanel.add(topLabel);
 		for(Card i : hand) {
 			if (i.getType() == CardType.WEAPON) {
