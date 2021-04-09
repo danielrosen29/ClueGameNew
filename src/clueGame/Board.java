@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JPanel;
+
 import com.sun.jdi.Field;
 
 /**
@@ -19,7 +22,7 @@ import com.sun.jdi.Field;
  * @author Mark Baldwin
  *
  */
-public class Board {
+public class Board extends JPanel {
 	// secondary layout characters
 	public static final char C_UP = '^' ;
 	public static final char C_RIGHT = '>' ;
@@ -526,6 +529,22 @@ public class Board {
 	
 	public Set<Card> getDeck() {
 		return deck;
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		int cellWidth = (1400-245)/numColumns;
+		int cellHeight = (900 - 60)/numRows;
+		
+		
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				grid[i][j].draw(cellWidth, cellHeight, g);
+			}
+		}
+		
+		
 	}
 
 }

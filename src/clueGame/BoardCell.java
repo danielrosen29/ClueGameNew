@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -143,5 +144,9 @@ public class BoardCell {
 		if( initial == Board.C_WALKWAY ) {
 			isOccupied = occupied ;
 		}
+	}
+	
+	public void draw(int width, int height, Graphics g) {
+		g.drawRect(width*row, height*col, width, height);
 	}
 }
