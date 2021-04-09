@@ -147,6 +147,6 @@ public class BoardCell {
 	}
 	
 	public void draw(int width, int height, Graphics g) {
-		g.drawRect(width*row, height*col, width, height);
+		g.drawRect(width*row, height*col+2, width, height);
 	}
 }
