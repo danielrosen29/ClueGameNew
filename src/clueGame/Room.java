@@ -1,9 +1,10 @@
 package clueGame;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-
+import java.awt.*;
 import javax.swing.JTextField;
 
 /**
@@ -54,13 +55,14 @@ public class Room {
 		return centerCell;
 	}
 	public void drawLabels(Graphics g) {
-		BoardCell center = this.getCenterCell();
-		System.out.println(center);
-		if (center != null) {
+		BoardCell label = this.getLabelCell();
+		System.out.println(label);
+		if (label != null) {
 			g = (Graphics2D)g;
-			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-			RenderingHints.VALUE_ANTIALIAS_ON);
-			g.drawString(name, center.getCol()*59, center.getRow()*32);
+			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+			g.setFont(new Font("Segoe Script", Font.BOLD + Font.ITALIC, 18));
+			g.setColor(Color.black);
+			g.drawString(name, label.getCol()*59, label.getRow()*32);
 		}
 	}
 }

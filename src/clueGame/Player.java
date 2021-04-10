@@ -21,6 +21,11 @@ public abstract class Player {
 	}
 	public abstract void updateHand(Card card);
 	
+	public void updateLocation(int row, int col) {
+		this.row = row;
+		this.col = col;
+	}
+	
 	public String getName() {
 		return this.name;
 	}
@@ -49,8 +54,8 @@ public abstract class Player {
 		return color;
 	}
 	
-	public void drawPlayer(int width, int height, Graphics g) {
+	public void drawPlayer(BoardCell cell, int width, int height, Graphics g) {
 		g.setColor(this.color);
-		g.fillOval(this.col-(width/2), this.row-(height/2), width, height);
+		g.fillOval(cell.getCol()-(width/2), cell.getRow()-(height/2), width, height);
 	}
 }

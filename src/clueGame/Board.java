@@ -90,8 +90,9 @@ public class Board extends JPanel {
 		loadConfigFiles();
 		createDeck();
 		dealCards();
-		generateStarts();
 		calcAdjacencies();
+		generateStarts();
+		setStarts();
 	}
 
 	/*
@@ -282,26 +283,19 @@ public class Board extends JPanel {
 	 * Method to find all possible starting locations, will be assigned in initialize
 	 */
 	private void generateStarts() {
-		for(int i = 0; i < grid[0].length; i++) {
-			if(grid[0][i].isWalkway()) {
-				startLocations.add(grid[0][i]);
-			}
-		}
-		for(int i = 0; i < grid[0].length; i++) {
-			if(grid[grid.length-1][i].isWalkway()) {
-				startLocations.add(grid[grid.length-1][i]);
-			}
-		}
-		for(int i = 0; i < grid.length; i++) {
-			if(grid[i][0].isWalkway()) {
-				startLocations.add(grid[i][0]);
-			}
-		}
-		for(int i = 0; i < grid.length; i++) {
-			if(grid[i][grid[0].length-1].isWalkway()) {
-				startLocations.add(grid[i][grid[0].length-1]);
-			}
-		}
+		
+		startLocations.add(grid[9][0]);
+		startLocations.add(grid[10][0]);
+		startLocations.add(grid[9][20]);
+		startLocations.add(grid[10][20]);
+		startLocations.add(grid[0][3]);
+		startLocations.add(grid[0][7]);
+		startLocations.add(grid[0][13]);
+		startLocations.add(grid[0][17]);
+		startLocations.add(grid[22][3]);
+		startLocations.add(grid[22][7]);
+		startLocations.add(grid[22][13]);
+		startLocations.add(grid[22][17]);
 	}
 	
 	/*
@@ -309,7 +303,12 @@ public class Board extends JPanel {
 	 */
 	
 	private void setStarts () {
+		ArrayList<BoardCell> cellList = new ArrayList<BoardCell>(startLocations);
+		ArrayList<Player> playerList = new ArrayList<Player>(playerSet);
 		
+		for(int i = 0; i < playerList.size(); i ++) {
+			playerList.get(i).updateLocation(cellList.get(i).getRow(), cellList.get(i).getCol());
+		}
 	}
 	
 	/*
@@ -586,8 +585,11 @@ public class Board extends JPanel {
 			roomMap.get(c).drawLabels(g);
 		}
 		
-		for (Player i : this.playerSet) {
-			i.drawPlayer(cellWidth, cellHeight, g);
+		ArrayList<BoardCell> cellList = new ArrayList<BoardCell>(startLocations);
+		ArrayList<Player> playerList = new ArrayList<Player>(playerSet);
+		
+		for(int i = 0; i < playerList.size(); i++) {
+			playerList.get(i).drawPlayer(cellList.get(i), cellWidth, cellHeight, g);
 		}
 		
 		
