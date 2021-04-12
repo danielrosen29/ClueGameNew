@@ -56,13 +56,12 @@ public class Room {
 	}
 	public void drawLabels(Graphics g) {
 		BoardCell label = this.getLabelCell();
-		System.out.println(label);
 		if (label != null) {
 			g = (Graphics2D)g;
 			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 			g.setFont(new Font("Segoe Script", Font.BOLD + Font.ITALIC, 18));
 			g.setColor(Color.black);
-			g.drawString(name, label.getCol()*59, label.getRow()*32);
+			g.drawString(name, label.getCol()*59+30, label.getRow()*32);
 		}
 	}
 }

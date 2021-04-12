@@ -571,7 +571,7 @@ public class Board extends JPanel {
 		super.paintComponent(g);
 		
 		int cellWidth = 59;
-		int cellHeight = 32;
+		int cellHeight = 31;
 		
 		
 		for (int i = 0; i < grid.length; i++) {
@@ -581,12 +581,17 @@ public class Board extends JPanel {
 		}
 		
 		for (Character c : roomMap.keySet()) {
-			//System.out.println(roomMap.get(c).getCenterCell());
 			roomMap.get(c).drawLabels(g);
 		}
 		
 		ArrayList<BoardCell> cellList = new ArrayList<BoardCell>(startLocations);
+		for (BoardCell b : cellList) {
+			System.out.println(b.toString());
+		}
 		ArrayList<Player> playerList = new ArrayList<Player>(playerSet);
+		for (Player p : playerList) {
+			System.out.println(p);
+		}
 		
 		for(int i = 0; i < playerList.size(); i++) {
 			playerList.get(i).drawPlayer(cellList.get(i), cellWidth, cellHeight, g);

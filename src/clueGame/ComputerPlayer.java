@@ -59,6 +59,7 @@ public class ComputerPlayer extends Player {
 		for(Card i : this.hand) {
 			updateSeenCards(i);
 		}
+		
 	}
 	
 	public void updateSeenCards(Card card) {

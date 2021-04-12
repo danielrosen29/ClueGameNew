@@ -50,7 +50,7 @@ public class GameControlPanel extends JPanel {
 		//name
 		JPanel returnedPanel = new JPanel();
 		returnedPanel.setLayout(new GridLayout(1,4));
-		returnedPanel.setPreferredSize(new Dimension(1400, 63));
+		returnedPanel.setPreferredSize(new Dimension(1400, 68));
 		JPanel namePanel = new JPanel();
 		namePanel.setBackground(backgroundColor);
 		namePanel.setLayout(new GridLayout(2,1));

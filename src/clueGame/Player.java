@@ -1,3 +1,4 @@
+
 package clueGame;
 
 import java.awt.Color;
@@ -56,6 +57,6 @@ public abstract class Player {
 	
 	public void drawPlayer(BoardCell cell, int width, int height, Graphics g) {
 		g.setColor(this.color);
-		g.fillOval(cell.getCol()-(width/2), cell.getRow()-(height/2), width, height);
+		g.fillOval(cell.getCol()*59, cell.getRow()*31+3, width, height);
 	}
 }
