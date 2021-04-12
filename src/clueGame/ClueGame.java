@@ -28,6 +28,7 @@ public class ClueGame extends JFrame {
 		add(KCPanel, BorderLayout.EAST);
 	}
 	
+	
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame();
 		game.setVisible(true);

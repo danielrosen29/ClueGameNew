@@ -80,10 +80,10 @@ public class GameControlPanel extends JPanel {
 		returnedPanel.add(rollPanel, BorderLayout.WEST);
 		//Button
 		JButton makeAccusation = new JButton("Make Accusation");
-		makeAccusation.addActionListener(new ButtonListener());
+		//makeAccusation.addActionListener(new ButtonListener());
 		returnedPanel.add(makeAccusation);
 		JButton nextButton = new JButton("Next");
-		nextButton.addActionListener(new ButtonListener());
+		nextButton.addActionListener(new NextButtonListener());
 		returnedPanel.add(nextButton);
 		return returnedPanel;
 	}
@@ -123,7 +123,7 @@ public class GameControlPanel extends JPanel {
 		return returnedPanel;
 	}
 	
-	public void setTurn(ComputerPlayer cpu, Integer roll) {
+	public void setTurn(Player cpu, Integer roll) {
 		playerText.setText(cpu.getName());
 		playerText.setBackground(cpu.getColor());
 		rollText.setText(roll.toString());
@@ -137,11 +137,12 @@ public class GameControlPanel extends JPanel {
 		guessResultText.setText(g);
 	}
 	
-	private class ButtonListener implements ActionListener{
+	private class NextButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Button Pressed");
 		}
 	}
+	
 	/**
 	 * Main to test the panel
 	 * 

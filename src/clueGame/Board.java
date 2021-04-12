@@ -1,7 +1,12 @@
 package clueGame;
 
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -9,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -49,6 +55,9 @@ public class Board extends JPanel {
 	
 	// Set to hold the different players
 	private Set<Player> playerSet = new HashSet<Player>();
+	//List of players to go in order 
+	private ArrayList<Player> playerList;
+	private int playerTurn = 0;
 	
 	//Set to hold the different weapons
 	private Set<String> weaponSet = new HashSet<String>();
@@ -66,6 +75,10 @@ public class Board extends JPanel {
 	
 	//The solution
 	public Solution solution = new Solution();
+	
+	
+	//Flag for unfinished move.
+	boolean unfinishedFlag = false;
 	
 	/*
 	 * 
@@ -585,19 +598,63 @@ public class Board extends JPanel {
 		}
 		
 		ArrayList<BoardCell> cellList = new ArrayList<BoardCell>(startLocations);
-		for (BoardCell b : cellList) {
-			System.out.println(b.toString());
-		}
-		ArrayList<Player> playerList = new ArrayList<Player>(playerSet);
-		for (Player p : playerList) {
-			System.out.println(p);
-		}
+		playerList = new ArrayList<Player>(playerSet);
 		
 		for(int i = 0; i < playerList.size(); i++) {
 			playerList.get(i).drawPlayer(cellList.get(i), cellWidth, cellHeight, g);
-		}
+		}	
 		
-		
+		calcTargets(this.getCell(0, 3), 15);
+		displayTargets(g);
 	}
-
+	
+	/*
+	 * Helper function to roll two dice.
+	 */
+	private int diceRoll() {
+		Random r = new Random();
+		int roll = r.nextInt(6)+1 + r.nextInt(6) + 1;
+		return roll;
+	}
+	
+	/*
+	 * Helper function to display targets.
+	 */
+	private void displayTargets(Graphics g) {
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setStroke(new BasicStroke(3));
+		g2.setColor(Color.red);	
+		float alphaOne = 1f;
+		float alphaTwo = 0.3f;
+		AlphaComposite alcomOne = AlphaComposite.getInstance(
+                AlphaComposite.SRC_OVER, alphaOne);
+        AlphaComposite alcomTwo = AlphaComposite.getInstance(
+                AlphaComposite.SRC_OVER, alphaTwo);
+		for (BoardCell bc : targets) {
+			g2.setComposite(alcomTwo);
+			g2.fillRect(bc.getCol()*59, bc.getRow()*31+1, 59, 32);
+			g2.setComposite(alcomOne);
+			g2.drawRect(bc.getCol()*59, bc.getRow()*31+1, 59, 32);
+		}
+		repaint();
+	}
+	
+	/*
+	 * Method to handle when the next button is pressed.
+	 */
+	public void nextPressed(Graphics g, GameControlPanel gcp) {
+		//Don't know how to implement the first part of the flow chart
+		Player currentPlayer = playerList.get(playerTurn);
+		int roll = diceRoll();
+		BoardCell currentCell = this.getCell(currentPlayer.row, currentPlayer.col);
+		calcTargets(currentCell, roll);
+		gcp.setTurn(currentPlayer, roll);
+		if (currentPlayer instanceof HumanPlayer) {
+			displayTargets(g);
+			unfinishedFlag = true;
+		}
+		else {
+			
+		}
+	}
 }
