@@ -13,11 +13,11 @@ Space, Unused, X
 Space, Walkway, W
 //Players
 Player, Human, H, BLUE, 5, 4
-Player, Large Cunt, C, RED, 5, 10
-Player, Slightly Smaller Cunt, C, GREEN, 5, 18
-Player, Big Meat, C, ORANGE, 10, 6
-Player, DMX, C, CYAN, 10, 13
-Player, Biggie, C, MAGENTA, 15, 4
+Player, Computer1, C, RED, 5, 10
+Player, Computer2, C, GREEN, 5, 18
+Player, Computer3, C, ORANGE, 10, 6
+Player, Computer4, C, CYAN, 10, 13
+Player, Computer5, C, MAGENTA, 15, 4
 //Weapons
 Weapon, Knife
 Weapon, Spoon
