@@ -5,8 +5,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -78,7 +81,11 @@ public class Board extends JPanel {
 	
 	
 	//Flag for unfinished move.
-	boolean unfinishedFlag = false;
+	private boolean unfinishedFlag = false;
+	
+	public boolean humanPlayerTurn = false;
+
+	public BoardCell playerMove;
 	
 	/*
 	 * 
@@ -100,6 +107,7 @@ public class Board extends JPanel {
 	 * initialize the grid (since we are using singleton pattern)
 	 */
 	public void initialize() {
+		addMouseListener(new moveSelectListener());
 		loadConfigFiles();
 		createDeck();
 		dealCards();
@@ -313,14 +321,17 @@ public class Board extends JPanel {
 	
 	/*
 	 * Method to set start locations for all the players
+	 *
 	 */
 	
 	private void setStarts () {
 		ArrayList<BoardCell> cellList = new ArrayList<BoardCell>(startLocations);
 		ArrayList<Player> playerList = new ArrayList<Player>(playerSet);
-		
+		Collections.shuffle(playerList);
+		Collections.shuffle(playerList);
 		for(int i = 0; i < playerList.size(); i ++) {
 			playerList.get(i).updateLocation(cellList.get(i).getRow(), cellList.get(i).getCol());
+			playerList.get(i).setCurrentCell(this.getCell(playerList.get(i).row, playerList.get(i).col));
 		}
 	}
 	
@@ -597,15 +608,13 @@ public class Board extends JPanel {
 			roomMap.get(c).drawLabels(g);
 		}
 		
-		ArrayList<BoardCell> cellList = new ArrayList<BoardCell>(startLocations);
 		playerList = new ArrayList<Player>(playerSet);
+		for(Player p : playerList) {
+			p.drawPlayer(p.getCurrentCell(), g);
+		}
 		
-		for(int i = 0; i < playerList.size(); i++) {
-			playerList.get(i).drawPlayer(cellList.get(i), cellWidth, cellHeight, g);
-		}	
-		
-		calcTargets(this.getCell(0, 3), 15);
-		displayTargets(g);
+		if (unfinishedFlag)
+			displayTargets(g);
 	}
 	
 	/*
@@ -636,13 +645,12 @@ public class Board extends JPanel {
 			g2.setComposite(alcomOne);
 			g2.drawRect(bc.getCol()*59, bc.getRow()*31+1, 59, 32);
 		}
-		repaint();
 	}
 	
 	/*
 	 * Method to handle when the next button is pressed.
 	 */
-	public void nextPressed(Graphics g, GameControlPanel gcp) {
+	public void nextPressed(GameControlPanel gcp) {
 		//Don't know how to implement the first part of the flow chart
 		Player currentPlayer = playerList.get(playerTurn);
 		int roll = diceRoll();
@@ -650,11 +658,74 @@ public class Board extends JPanel {
 		calcTargets(currentCell, roll);
 		gcp.setTurn(currentPlayer, roll);
 		if (currentPlayer instanceof HumanPlayer) {
-			displayTargets(g);
+			System.out.println("here");
+			humanPlayerTurn = true;
 			unfinishedFlag = true;
 		}
 		else {
+			// Don't know how to handle accusation
+			BoardCell move = ((ComputerPlayer) currentPlayer).selectMove(roll);
+			((ComputerPlayer)currentPlayer).updateLocation(move.getRow(), move.getCol());	
+			((ComputerPlayer)currentPlayer).setCurrentCell(this.getCell(move.getRow(), move.getCol()));
+			//Don't know when they should make suggestion.
+			unfinishedFlag = false;
+			humanPlayerTurn = false;
 			
+			if (playerTurn < playerList.size()-1)
+				playerTurn++;
+			else {
+				playerTurn = 0;
+			}
+		}
+	}
+	
+	/*
+	 * Method to handle player 
+	 */
+	public void playerMoveSelector(Point point) {
+		int row = point.y/31;
+		int col = point.x/59;
+		BoardCell selected = this.getCell(row, col);
+		boolean contains = false;
+		while (!contains) {
+			if (targets.contains(selected)) {
+				contains = true;
+			}
+		}
+		playerList.get(playerTurn).updateLocation(row, col);
+		playerList.get(playerTurn).setCurrentCell(selected);
+		if (playerTurn < playerList.size()-1)
+			playerTurn++;
+		else {
+			playerTurn = 0;
+		}
+		unfinishedFlag = false;
+		humanPlayerTurn = false;
+	};
+	
+	private class moveSelectListener implements MouseListener {
+		public void mouseClicked (MouseEvent event) {
+			if (unfinishedFlag) {
+				playerMoveSelector(event.getPoint());
+				repaint();
+			}
+				
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
 		}
 	}
 }

@@ -4,19 +4,20 @@ import java.awt.BorderLayout;
 import java.util.Set;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame {
 	Board board = Board.getInstance(); 
-	GameControlPanel GCPanel = new GameControlPanel();
+	GameControlPanel GCPanel = new GameControlPanel(this);
 	KnownCardsGUI KCPanel;
+	public  HumanPlayer hp = null;
 	
 	public ClueGame() {
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		board.initialize();
 		
-		HumanPlayer hp = null;
 		Set<Player> playerSet = board.getPlayers();
-		for (Player p : playerSet) {
+		for (Player p : playerSet) {	
 			if ( p instanceof HumanPlayer )
 				hp = (HumanPlayer) p;
 		}	
@@ -32,6 +33,14 @@ public class ClueGame extends JFrame {
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame();
 		game.setVisible(true);
+		
+		JOptionPane.showMessageDialog(game,
+				"You are " + game.hp.getName() + ".\nCan you find the solution\nbefore the Computer Players?",
+				"Welcome to Clue",
+				JOptionPane.INFORMATION_MESSAGE);
+		
+		game.board.nextPressed(game.GCPanel);
+		game.board.repaint();
 	}
 	
 	

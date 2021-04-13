@@ -11,6 +11,7 @@ import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -20,6 +21,8 @@ import javax.swing.border.TitledBorder;
 
 public class GameControlPanel extends JPanel {
 
+	ClueGame game;
+	
 	JTextField playerText;
 	JTextField rollText;
 	JTextField guessText;
@@ -30,9 +33,10 @@ public class GameControlPanel extends JPanel {
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public GameControlPanel()  {
+	public GameControlPanel(ClueGame game)  {
 		super();
 		//Layout for whole panel
+		this.game = game;
 		JPanel layoutOrganizer = new JPanel();
 		layoutOrganizer.setLayout(new GridLayout(2,0));
 	
@@ -43,6 +47,7 @@ public class GameControlPanel extends JPanel {
 		layoutOrganizer.add(upperPanel);
 		layoutOrganizer.add(lowerPanel);
 		this.add(layoutOrganizer);
+		
 	}
 
 	
@@ -87,7 +92,7 @@ public class GameControlPanel extends JPanel {
 		returnedPanel.add(nextButton);
 		return returnedPanel;
 	}
-	
+
 	private JPanel lowerPanel() {
 		JPanel returnedPanel = new JPanel();
 		returnedPanel.setLayout(new GridLayout(0,2));
@@ -139,26 +144,15 @@ public class GameControlPanel extends JPanel {
 	
 	private class NextButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Button Pressed");
+			if (!game.board.humanPlayerTurn) {//game.board.nextPressed();
+				game.board.nextPressed(game.GCPanel);
+				game.board.repaint();
+			} else {
+				JOptionPane.showMessageDialog(game,
+						"Please wait for player to finish turn!",
+						"Error!",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
-	}
-	
-	/**
-	 * Main to test the panel
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		GameControlPanel panel = new GameControlPanel();  // create the panel
-		JFrame frame = new JFrame(); // create the frame 
-		frame.setContentPane(panel); // put the panel in the frame
-		frame.setSize(750, 180);  // size the frame
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // allow it to close
-		frame.setVisible(true); // make it visible
-		
-		// test filling in the data
-		panel.setTurn(new ComputerPlayer( "Col. Mustard", Color.orange, 0, 0), 5);
-		panel.setGuess( "I have no guess!");
-		panel.setGuessResult( "So you have nothing?");
 	}
 }

@@ -13,6 +13,7 @@ public abstract class Player {
 	private String name;
 	private Color color;
 	protected int row, col;
+	private BoardCell currentCell; 
 	
 	public Player(String name, Color color, int row, int col) {
 		this.name = name;
@@ -55,8 +56,14 @@ public abstract class Player {
 		return color;
 	}
 	
-	public void drawPlayer(BoardCell cell, int width, int height, Graphics g) {
+	public void drawPlayer(BoardCell cell, Graphics g) {
 		g.setColor(this.color);
-		g.fillOval(cell.getCol()*59, cell.getRow()*31+3, width, height);
+		g.fillOval(cell.getCol()*59, cell.getRow()*31+3, 59, 31);
+	}
+	public void setCurrentCell(BoardCell selected) {
+		this.currentCell = selected;
+	}
+	public BoardCell getCurrentCell() {
+		return this.currentCell;
 	}
 }
