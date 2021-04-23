@@ -54,14 +54,14 @@ public class Room {
 	public BoardCell getCenterCell() {
 		return centerCell;
 	}
-	public void drawLabels(Graphics g) {
+	public void drawLabels(Graphics g, int c, int r) {
 		BoardCell label = this.getLabelCell();
 		if (label != null) {
 			g = (Graphics2D)g;
 			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 			g.setFont(new Font("Segoe Script", Font.BOLD + Font.ITALIC, 18));
 			g.setColor(Color.black);
-			g.drawString(name, label.getCol()*59+30, label.getRow()*32);
+			g.drawString(name, label.getCol()*c+30, label.getRow()*r);
 		}
 	}
 }

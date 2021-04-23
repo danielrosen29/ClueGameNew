@@ -45,8 +45,10 @@ public abstract class Player {
 		
 		if(!matchingCards.isEmpty()) {
 			tempCard = matchingCards.get(random.nextInt(matchingCards.size()));
+			return tempCard;
+		}else {
+			return null;
 		}
-		return tempCard;
 
 	}
 	
@@ -56,9 +58,10 @@ public abstract class Player {
 		return color;
 	}
 	
-	public void drawPlayer(BoardCell cell, Graphics g) {
+	public void drawPlayer(BoardCell cell, Graphics g, int c, int r) {
+		
 		g.setColor(this.color);
-		g.fillOval(cell.getCol()*59, cell.getRow()*31+3, 59, 31);
+		g.fillOval(cell.getCol()*c, cell.getRow()*r+3, c, r);
 	}
 	public void setCurrentCell(BoardCell selected) {
 		this.currentCell = selected;

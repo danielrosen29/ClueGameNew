@@ -33,15 +33,14 @@ public class GameControlPanel extends JPanel {
 	/**
 	 * Constructor for the panel, it does 90% of the work
 	 */
-	public GameControlPanel(ClueGame game)  {
+	public GameControlPanel(ClueGame game, int width, int height)  {
 		super();
 		//Layout for whole panel
 		this.game = game;
 		JPanel layoutOrganizer = new JPanel();
 		layoutOrganizer.setLayout(new GridLayout(2,0));
-	
 		
-		JPanel upperPanel = upperPanel();
+		JPanel upperPanel = upperPanel(width,height);
 		JPanel lowerPanel = lowerPanel();
 		
 		layoutOrganizer.add(upperPanel);
@@ -51,11 +50,11 @@ public class GameControlPanel extends JPanel {
 	}
 
 	
-	private JPanel upperPanel(){
+	private JPanel upperPanel(int w, int h){
 		//name
 		JPanel returnedPanel = new JPanel();
 		returnedPanel.setLayout(new GridLayout(1,4));
-		returnedPanel.setPreferredSize(new Dimension(1400, 68));
+		returnedPanel.setPreferredSize(new Dimension(w, (int) (h*0.076)));
 		JPanel namePanel = new JPanel();
 		namePanel.setBackground(backgroundColor);
 		namePanel.setLayout(new GridLayout(2,1));

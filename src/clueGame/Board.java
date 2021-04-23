@@ -2,9 +2,12 @@ package clueGame;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
@@ -21,9 +24,11 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import com.sun.jdi.Field;
+
 
 /**
  * Board for clueGame
@@ -42,6 +47,7 @@ public class Board extends JPanel {
 	public static final char C_WALKWAY = 'W';
 	public static final char C_UNUSED = 'X';
 	
+	private ClueGame frame;
 	// the container for the cells
 	private BoardCell[][] grid;
 
@@ -76,6 +82,7 @@ public class Board extends JPanel {
 	//The card deck
 	private Set<Card> deck = new HashSet<Card>();
 	
+	private Set<Card> roomdeck = new HashSet<Card>();
 	//The solution
 	public Solution solution = new Solution();
 	
@@ -84,6 +91,8 @@ public class Board extends JPanel {
 	private boolean unfinishedFlag = false;
 	
 	public boolean humanPlayerTurn = false;
+	
+	private int roll;
 
 	public BoardCell playerMove;
 	
@@ -291,6 +300,7 @@ public class Board extends JPanel {
 		for (Map.Entry r : roomMap.entrySet()) { 
 			Room tempRoom = (Room) r.getValue();
 			deck.add(new Card(tempRoom.getName(), CardType.ROOM));
+			roomdeck.add(new Card(tempRoom.getName(), CardType.ROOM));
 		}
 		for (Player p : playerSet) {
 			deck.add(new Card(p.getName(), CardType.PERSON));
@@ -339,23 +349,38 @@ public class Board extends JPanel {
 	 * Method to deal cards
 	 */
 	private void dealCards() {
+		Card unused = null;
+		Card walkway = null;
+		for(Card c : deck) {
+			if(c.getCard().equals("Unused")){
+				unused = c;
+			} else if ( c.getCard().equals("Walkway")) {
+				walkway = c;
+			}
+		}
+		deck.remove(unused);
+		deck.remove(walkway);
 		//Get Solution Room
 		ArrayList<Character> shuffledRooms = new ArrayList<Character>(roomMap.keySet());
 		Collections.shuffle(shuffledRooms);
-		Character solutionRoom = shuffledRooms.get(0);
+		Character solutionRoom = shuffledRooms.get(1);
+		while(solutionRoom == 'X' || solutionRoom == 'W') {
+			Collections.shuffle(shuffledRooms);
+			solutionRoom = shuffledRooms.get(1);
+		}
 		String roomTemp = roomMap.get(solutionRoom).getName();
 		
 		//Get Solution Player
 		ArrayList<Player> shuffledPlayers = new ArrayList<Player>(playerSet);
 		Collections.shuffle(shuffledPlayers);
-		Player solutionPlayer = shuffledPlayers.get(0);
+		Player solutionPlayer = shuffledPlayers.get(1);
 		String playerTemp = solutionPlayer.getName();
 
 		
 		//Get Solution Weapon
 		ArrayList<String> shuffledWeapons = new ArrayList<String>(weaponSet);
 		Collections.shuffle(shuffledWeapons);
-		String solutionWeapon = shuffledWeapons.get(0);
+		String solutionWeapon = shuffledWeapons.get(1);
 		
 		for (Card c : deck) {
 			if (c.getCard() == roomTemp) {
@@ -371,6 +396,10 @@ public class Board extends JPanel {
 		deck.remove(solution.person);
 		deck.remove(solution.weapon);
 		
+		System.out.println(solution.room.getCard());
+		System.out.println(solution.person.getCard());
+		System.out.println(solution.weapon.getCard());
+		
 		ArrayList<Player> playerList = new ArrayList<Player>(playerSet);
 		int index = 0;
 		for (Card c : deck) {
@@ -382,6 +411,22 @@ public class Board extends JPanel {
 			index++;
 		}
 		
+	}
+	
+	public Card inDeck(String cardName) {
+		for(Card i : roomdeck) {
+			if(i.getCard().equals(cardName)) {
+				return i;
+			}
+		}
+		if(solution.room.getCard().equals(cardName)) {
+			return solution.room;
+		}else if(solution.person.getCard().equals(cardName)) {
+			return solution.person;
+		}else if(solution.weapon.getCard().equals(cardName)) {
+			return solution.weapon;
+		}
+		return null;
 	}
 
 	/*
@@ -514,20 +559,22 @@ public class Board extends JPanel {
 	
 	//Method for handling suggestions
 	
-	public Card handleSuggestion(Solution suggestion, Player accuser) {
+	public Map<Card, Player> handleSuggestion(Solution suggestion, Player accuser) {
+		Map<Card, Player> send= new HashMap<Card, Player>();
 		for(Player p : playerSet) {
 			Card c = p.disproveSuggestion(suggestion);
 			if(c != null) {
-				for(Player x : playerSet) {
-					if(x instanceof ComputerPlayer) {
-						((ComputerPlayer)x).updateSeenCards(c);
-					}
-					else {
-						((HumanPlayer)x).updateSeen(c, p);
-					}
-				}
 				if(p != accuser) {
-					return c;
+					for(Player x : playerSet) {
+						if(x instanceof ComputerPlayer) {
+							((ComputerPlayer)x).updateSeenCards(c);
+						}
+						else {
+							((HumanPlayer)x).updateSeen(c, p);
+						}
+					}
+					send.put(c, p);
+					return send;
 				}
 			}
 		}
@@ -594,8 +641,8 @@ public class Board extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		int cellWidth = 59;
-		int cellHeight = 31;
+		int cellWidth = this.getWidth()/grid[0].length;
+		int cellHeight = this.getHeight()/grid.length;
 		
 		
 		for (int i = 0; i < grid.length; i++) {
@@ -605,12 +652,12 @@ public class Board extends JPanel {
 		}
 		
 		for (Character c : roomMap.keySet()) {
-			roomMap.get(c).drawLabels(g);
+			roomMap.get(c).drawLabels(g, cellWidth, cellHeight);
 		}
 		
 		playerList = new ArrayList<Player>(playerSet);
 		for(Player p : playerList) {
-			p.drawPlayer(p.getCurrentCell(), g);
+			p.drawPlayer(p.getCurrentCell(), g, cellWidth, cellHeight);
 		}
 		
 		if (unfinishedFlag)
@@ -622,7 +669,7 @@ public class Board extends JPanel {
 	 */
 	private int diceRoll() {
 		Random r = new Random();
-		int roll = r.nextInt(6)+1 + r.nextInt(6) + 1;
+		roll = ((r.nextInt(6)) + 1) + ((r.nextInt(6)) + 1);
 		return roll;
 	}
 	
@@ -633,6 +680,8 @@ public class Board extends JPanel {
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setStroke(new BasicStroke(3));
 		g2.setColor(Color.red);	
+		int cellWidth = this.getWidth()/grid[0].length;
+		int cellHeight = this.getHeight()/grid.length;
 		float alphaOne = 1f;
 		float alphaTwo = 0.3f;
 		AlphaComposite alcomOne = AlphaComposite.getInstance(
@@ -641,9 +690,9 @@ public class Board extends JPanel {
                 AlphaComposite.SRC_OVER, alphaTwo);
 		for (BoardCell bc : targets) {
 			g2.setComposite(alcomTwo);
-			g2.fillRect(bc.getCol()*59, bc.getRow()*31+1, 59, 32);
+			g2.fillRect(bc.getCol()*cellWidth, bc.getRow()*cellHeight+1, cellWidth, cellHeight);
 			g2.setComposite(alcomOne);
-			g2.drawRect(bc.getCol()*59, bc.getRow()*31+1, 59, 32);
+			g2.drawRect(bc.getCol()*cellWidth, bc.getRow()*cellHeight+1, cellWidth, cellHeight);
 		}
 	}
 	
@@ -651,14 +700,12 @@ public class Board extends JPanel {
 	 * Method to handle when the next button is pressed.
 	 */
 	public void nextPressed(GameControlPanel gcp) {
-		//Don't know how to implement the first part of the flow chart
 		Player currentPlayer = playerList.get(playerTurn);
 		int roll = diceRoll();
 		BoardCell currentCell = this.getCell(currentPlayer.row, currentPlayer.col);
 		calcTargets(currentCell, roll);
 		gcp.setTurn(currentPlayer, roll);
 		if (currentPlayer instanceof HumanPlayer) {
-			System.out.println("here");
 			humanPlayerTurn = true;
 			unfinishedFlag = true;
 		}
@@ -667,26 +714,58 @@ public class Board extends JPanel {
 			BoardCell move = ((ComputerPlayer) currentPlayer).selectMove(roll);
 			((ComputerPlayer)currentPlayer).updateLocation(move.getRow(), move.getCol());	
 			((ComputerPlayer)currentPlayer).setCurrentCell(this.getCell(move.getRow(), move.getCol()));
-			//Don't know when they should make suggestion.
-			unfinishedFlag = false;
-			humanPlayerTurn = false;
-			
-			if (playerTurn < playerList.size()-1)
-				playerTurn++;
-			else {
-				playerTurn = 0;
+			if (((ComputerPlayer)currentPlayer).getCurrentCell().isRoom()) {
+				System.out.println(roomMap.get(((ComputerPlayer)currentPlayer).getCurrentCell().getInitial()).getName());
+				Card card = inDeck(roomMap.get(((ComputerPlayer)currentPlayer).getCurrentCell().getInitial()).getName());
+				System.out.println(card.getCard());
+				Solution suggestion = ((ComputerPlayer)currentPlayer).createSuggestion(card);
+				System.out.println(suggestion.person.getCard() + " " + suggestion.room.getCard() + " " + suggestion.weapon.getCard());
+				Map<Card, Player> sugCard = handleSuggestion(suggestion, currentPlayer);
+				for(Player p : playerSet) {
+					if(p.getName() == suggestion.person.getCard()) {
+						p.updateLocation(currentPlayer.row, currentPlayer.col);
+						p.setCurrentCell(move);
+					}
+				}
+				repaint();
+				if(sugCard == null) {
+					frame.GCPanel.setGuessResult("No new clue!");
+				}
+					boolean correctAccusation = checkAccusation(suggestion);
+					if (correctAccusation) {
+						System.out.println("Correct");
+					} else {
+						System.out.println("Incorrect");
+					}
+				}else {
+					frame.GCPanel.setGuessResult("Suggestion Disproven!");
+				}
+				unfinishedFlag = false;
+				humanPlayerTurn = false;
+
+				if (playerTurn < playerList.size()-1)
+					playerTurn++;
+				else {
+					playerTurn = 0;
+				}
 			}
 		}
-	}
 	
+	
+	public void setFrame(ClueGame frame) {
+		this.frame = frame;
+	}
 	/*
 	 * Method to handle player 
 	 */
 	public void playerMoveSelector(Point point) {
-		int row = point.y/31;
-		int col = point.x/59;
+		int cellWidth = this.getWidth()/grid[0].length;
+		int cellHeight = this.getHeight()/grid.length;
+		int row = point.y/cellHeight;
+		int col = point.x/cellWidth;
 		BoardCell selected = this.getCell(row, col);
 		boolean contains = false;
+		calcTargets(playerList.get(playerTurn).getCurrentCell(), roll);
 		while (!contains) {
 			if (targets.contains(selected)) {
 				contains = true;
@@ -694,6 +773,8 @@ public class Board extends JPanel {
 		}
 		playerList.get(playerTurn).updateLocation(row, col);
 		playerList.get(playerTurn).setCurrentCell(selected);
+		//SuggestionMaker suggestion = new SuggestionMaker();
+		
 		if (playerTurn < playerList.size()-1)
 			playerTurn++;
 		else {
@@ -702,7 +783,7 @@ public class Board extends JPanel {
 		unfinishedFlag = false;
 		humanPlayerTurn = false;
 	};
-	
+
 	private class moveSelectListener implements MouseListener {
 		public void mouseClicked (MouseEvent event) {
 			if (unfinishedFlag) {

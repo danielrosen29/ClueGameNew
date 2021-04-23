@@ -7,8 +7,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame {
+	int startW = 1400;
+	int startH = 900;
+	
 	Board board = Board.getInstance(); 
-	GameControlPanel GCPanel = new GameControlPanel(this);
+	GameControlPanel GCPanel = new GameControlPanel(this, startW, startH);
 	KnownCardsGUI KCPanel;
 	public  HumanPlayer hp = null;
 	
@@ -22,7 +25,7 @@ public class ClueGame extends JFrame {
 				hp = (HumanPlayer) p;
 		}	
 		KCPanel = new KnownCardsGUI(hp);
-		setSize(1400 , 900);
+		setSize(startW , startH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		add(board, BorderLayout.CENTER);
 		add(GCPanel, BorderLayout.SOUTH);
@@ -32,6 +35,7 @@ public class ClueGame extends JFrame {
 	
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame();
+		game.board.setFrame(game);
 		game.setVisible(true);
 		
 		JOptionPane.showMessageDialog(game,

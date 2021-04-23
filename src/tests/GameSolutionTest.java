@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Set;
 import java.util.*;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -115,7 +113,7 @@ public class GameSolutionTest {
 		testSolution.person = board.solution.person;
 		testSolution.room = board.solution.room;
 		testSolution.weapon = board.solution.weapon;
-		Card testCard = board.handleSuggestion(testSolution, testP);
+		Map<Card, Player> testCard = board.handleSuggestion(testSolution, testP);
 		
 		assertEquals(testCard, null);
 		
@@ -138,7 +136,7 @@ public class GameSolutionTest {
 		}
 		testCard = board.handleSuggestion(testSolution, testP);
 		
-		assertEquals(testCard, testSolution.room);
+		assertTrue(testCard.containsKey(testSolution.room));
 		
 	}
 
